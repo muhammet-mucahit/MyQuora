@@ -26,6 +26,9 @@ public class TopicOfUserController {
     @RequestMapping("/topics")
     public String topics(@RequestParam("topic") String[] topicNames, HttpSession httpSession) {
 
+        User currentUser = (User) httpSession.getAttribute("CurrentUser");
+        if (currentUser == null)
+            return "redirect:/";
         TopicOfUser topicOfUser = new TopicOfUser();
         List<Topic> relatedTopics = topicDao.getRelatedTopics(topicNames);
         for (int i = 0; i < 5; i++) {

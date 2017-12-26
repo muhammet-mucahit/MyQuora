@@ -36,8 +36,8 @@ public class HomeController {
 
         ModelAndView homepage = new ModelAndView("home.jsp");
         User currentUser = (User) httpSession.getAttribute("CurrentUser");
-//        if (currentUser == null)
-//            return new ModelAndView("redirect:/");
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         List<TopicOfUser> topicsOfUsers = topicOfUserDao.getRelatedTopicsIDs(currentUser);
         List<Topic> relatedTopics = topicDao.getRelatedTopics(topicsOfUsers);
         List<Question> questionsOfOtherUsers = questionDao.getQuestionsFromOtherUsers(String.valueOf(currentUser.getId()));
@@ -55,6 +55,9 @@ public class HomeController {
     public ModelAndView topicName(@PathVariable String topicName, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView("questionsByTopic.jsp");
 
+        User currentUser = (User) httpSession.getAttribute("CurrentUser");
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         List<Question> questionsByTopic = questionDao.getQuestionByTopic(topicName, httpSession);
         modelAndView.addObject("questionsByTopic", questionsByTopic);
         return modelAndView;
@@ -98,6 +101,8 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("answers.jsp");
         User currentUser = (User) httpSession.getAttribute("CurrentUser");
 
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         List<Question> followingsAndRelatedTopicsQuestions = questionDao.getFollowingsAndRelatedTopicsQuestions(currentUser);
 //        List<Answer> answersOfOtherUsers = answerDao.getAnswersFromOtherUsers(currentUser);
 //        modelAndView.addObject("answersOfOtherUsers", answersOfOtherUsers);

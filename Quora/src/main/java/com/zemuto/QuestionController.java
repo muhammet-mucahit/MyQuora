@@ -26,14 +26,20 @@ public class QuestionController {
     @RequestMapping("")
     public ModelAndView questions(HttpSession httpSession) {
 
+        User currentUser = (User) httpSession.getAttribute("CurrentUser");
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         ModelAndView questionPage = new ModelAndView("questions.jsp");
 
         return questionPage;
     }
 
     @RequestMapping("{questionID}")
-    public ModelAndView questionById(@PathVariable Long questionID) {
+    public ModelAndView questionById(@PathVariable Long questionID, HttpSession httpSession) {
         ModelAndView questionByIdPage = new ModelAndView("questionById.jsp");
+        User currentUser = (User) httpSession.getAttribute("CurrentUser");
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         Question questionById = questionDao.getQuestionById(questionID);
         List<Answer> answersOfSpesificQuestion = answerDao.getAnswersForSpesificQuestion(questionID);
         List<Question> relatedQuestions = questionDao.getRelatedQuestions(questionID);

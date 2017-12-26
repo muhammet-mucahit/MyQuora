@@ -33,10 +33,12 @@ public class ProfileController {
         ModelAndView modelAndView = new ModelAndView("profile.jsp");
         User currentUser = (User) httpSession.getAttribute("CurrentUser");
 
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
+
         List<Question> questionsOfCurrentUser = questionDao.getQuestionsOfCurrentUser(String.valueOf(currentUser.getId()));
         modelAndView.addObject("questionsOfCurrentUser", questionsOfCurrentUser);
-//        List<User> users = userDao.getUsers(String.valueOf(currentUser.getId()));
-//        modelAndView.addObject("users", users);
+
         modelAndView.addObject("currentUser", currentUser);
 
         List<TopicOfUser> topicsOfUsers = topicOfUserDao.getRelatedTopicsIDs(currentUser);
@@ -51,6 +53,7 @@ public class ProfileController {
 
         ModelAndView modelAndView = new ModelAndView("otherProfile.jsp");
         User currentUser = userDao.getUser(userName, userSurname);
+
         modelAndView.addObject("currentUser", currentUser);
 
         List<Question> questionsOfCurrentUser = questionDao.getQuestionsOfCurrentUser(String.valueOf(currentUser.getId()));
@@ -61,6 +64,8 @@ public class ProfileController {
         modelAndView.addObject("relatedTopics", relatedTopics);
 
         User follower = (User) httpSession.getAttribute("CurrentUser");
+        if (follower == null)
+            return new ModelAndView("redirect:/");
 
         List<Following> isFollowing = followingDao.isFollowing(follower, currentUser);
         modelAndView.addObject("isFollowing", isFollowing);
@@ -108,6 +113,9 @@ public class ProfileController {
     @RequestMapping("/followers")
     public ModelAndView currentUserFollowers(HttpSession httpSession) {
         User currentUser = (User) httpSession.getAttribute("CurrentUser");
+
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         List<User> followerOfCurrentUser = userDao.getFollowers(currentUser);
         ModelAndView modelAndView = new ModelAndView("followers.jsp");
         modelAndView.addObject("followerOfCurrentUser", followerOfCurrentUser);
@@ -117,6 +125,9 @@ public class ProfileController {
     @RequestMapping("/followings")
     public ModelAndView currentUserFollowings(HttpSession httpSession) {
         User currentUser = (User) httpSession.getAttribute("CurrentUser");
+
+        if (currentUser == null)
+            return new ModelAndView("redirect:/");
         List<User> followingOfCurrentUser = userDao.getFollowing(currentUser);
         ModelAndView modelAndView = new ModelAndView("followings.jsp");
         modelAndView.addObject("followingOfCurrentUser", followingOfCurrentUser);

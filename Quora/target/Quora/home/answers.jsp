@@ -43,7 +43,7 @@
         <a href="" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">      </a>
         <a href="" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">      </a>
         <a href="" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">      </a>
-        <a href="/" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">Logout</a>
+        <a href="/logout" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">Logout</a>
         <a href="profile" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account"><img src=${sessionScope.get("CurrentUser").getPhoto()} class="w3-circle" style="height:25px;width:25px" alt="Avatar"></a>
         <a href="/addQuestion.jsp" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">Add Question</a>
     </div>
@@ -77,16 +77,13 @@
             <% for(Question question : followingsAndRelatedTopicsQuestions) { %>
             <form action="/home/answerQuestion" method="post">
                 <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+                    <img src=<%=question.getUser().getPhoto()%> alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
+                    <span class="w3-right w3-opacity"><%=question.getAskDate()%></span>
+                    <a href="home/profile/<%=question.getUser().getName()%>-<%=question.getUser().getSurname()%>"><h4><%=question.getUser().getName()%> <%=question.getUser().getSurname()%></h4></a><br>
                     <a href="/home/questions/<%=question.getQuestionID()%>"><h4><%=question.getQuestion()%></h4></a>
                     <hr class="w3-clear">
                     <textarea required name="answer" placeholder="Write your answer here..."></textarea>
                     <button formaction="/home/answerQuestion-<%=question.getQuestionID()%>" type="submit" class="w3-button w3-theme-yellow w3-margin-bottom"><i class="fa fa-comment"></i> &nbsp;Answer</button>
-                    <hr class="w3-clear">
-                    <img src="<%=question.getUser().getPhoto()%>" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-                    <span class="w3-right w3-opacity"><%=question.getAskDate()%></span>
-                    <a href="/home/profile/<%=question.getUser().getName()%>-<%=question.getUser().getSurname()%>"><h4><%=question.getUser().getName()%> <%=question.getUser().getSurname()%></h4></a><br>
-                    <%--<p><%=question.getAnswer()%></p>--%>
-                    <hr class="w3-clear">
                 </div>
             </form>
             <% } %>

@@ -34,6 +34,13 @@
 </style>
 <body class="w3-theme-l5">
 
+<%
+    response.setHeader("Cache-Control","no-cache");
+    response.setHeader("Cache-Control","no-store");
+    response.setDateHeader("Expires", 0);
+    response.setHeader("Pragma","no-cache");
+%>
+
 <!-- Navbar -->
 <div class="w3-top">
     <div class="w3-theme-green w3-bar w3-left-align w3-large">
@@ -45,7 +52,7 @@
         <a href="" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">      </a>
         <a href="" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">      </a>
         <a href="" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">      </a>
-        <a href="/" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">Logout</a>
+        <a href="/logout" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">Logout</a>
         <a href="home/profile" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account"><img src=${sessionScope.get("CurrentUser").getPhoto()} class="w3-circle" style="height:25px;width:25px" alt="Avatar"></a>
         <a href="addQuestion.jsp" class="w3-bar-item w3-button w3-right w3-padding-large w3-hover-white">Add Question</a>
     </div>
